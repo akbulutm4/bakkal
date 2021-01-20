@@ -63,7 +63,9 @@
           },
           async fetch() {
             console.log("Fetching..");
-            const res = await axios.get("https://www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798");
+            const res = await axios.get("https://www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798", {
+              'Access-Control-Allow-Origin': '*'
+            });
 
             const domparser = new DOMParser();
             const dom = domparser(res.data, 'text/xml');
