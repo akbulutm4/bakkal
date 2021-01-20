@@ -1,12 +1,13 @@
 <html>
   <head>
-    <title>The Coolest Vue - Axios Demo</title>
+    <title>Bakkal</title>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
     <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
     <style>
     </style>
@@ -59,7 +60,16 @@
           },
           dismissed() {
             console.log('Alert dismissed')
-          }
+          },
+          async fetch() {
+            console.log("Fetching..");
+            const res = await axios.get("https://www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798", {
+              crossdomain: true,
+            });
+
+            const data = res.data;
+            console.log(`GET done!`, data);
+          },
         }
       });
     </script>
