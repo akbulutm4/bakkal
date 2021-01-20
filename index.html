@@ -64,7 +64,10 @@
           async fetch() {
             console.log("Fetching..");
             const res = await axios.get("https://www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798", {
-              'Access-Control-Allow-Origin': '*'
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+              },
+              crossorigin: 'anonymous',
             });
 
             const domparser = new DOMParser();
