@@ -1,8 +1,12 @@
 <html>
   <head>
     <title>The Coolest Vue - Axios Demo</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src="https://unpkg.com/vue-router@2.0.0"></script>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+    <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
     
     <style>
     </style>
@@ -10,9 +14,17 @@
   <body>
     <div class="wrapper">
       <div id="app" class="container" style="padding-top: 2em;">
-        <div class="text-center">
-          <router-view></router-view>
-        </div>
+        <b-button size="sm" @click="toggle">
+          {{ show ? 'Hide' : 'Show' }} Alert
+        </b-button>
+        <b-alert
+          v-model="show"
+          class="mt-3"
+          dismissible
+          @dismissed="dismissed"
+        >
+          Hello {{ name }}!
+        </b-alert>
       </div>
     </div>
 
@@ -20,43 +32,35 @@
       All external js files exist as js files. This way we have eliminated the use of 
       vue-http-loader. We could turn them to Vue components and use vue-http-loader to compile Vue files.
       Or, better still - switch to a full Vue setup using CLI, Webpack, et al.
+
+      <script src="./navigation.vue.js"></script>
+      <script>
+            Vue.component("Navigation", Navigation);
+      </script>
     -->
-    <script src="./navigation.vue.js"></script>
-    <script src="./access.vue.js"></script>
-    <script src="./content.vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
     <script>
-      Vue.component("Navigation", Navigation);
-      Vue.component("Content", Content);
-      Vue.component("Access", Access);
-
-      const routes = [
-        {
-          path: "/",
-          component: Access,
-        },
-        {
-          path: "/content",
-          component: Content,
-        },
-      ];
-
-      const router = new VueRouter({
-        routes: routes,
-        mode: "history",
-        base: "/",
-      });
-
       var app = new Vue({
         el: "#app",
-        router: router,
         data() {
           return {
-          };
+            name: 'BootstrapVue',
+            show: true
+          }
+        },
+        watch: {
+          show(newVal) {
+            console.log('Alert is now ' + (newVal ? 'visible' : 'hidden'))
+          }
         },
         methods: {
-        },
+          toggle() {
+            console.log('Toggle button clicked')
+            this.show = !this.show
+          },
+          dismissed() {
+            console.log('Alert dismissed')
+          }
+        }
       });
     </script>
   </body>
