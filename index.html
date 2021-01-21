@@ -7,10 +7,7 @@
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-    <script src="https://d3js.org/d3-request.v1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
     <style>
     </style>
@@ -18,7 +15,7 @@
   <body>
     <div class="wrapper">
       <div id="app" class="container" style="padding-top: 2em;">
-        <b-button size="sm" @click="fetch">
+        <b-button size="sm" @click="toggle">
           {{ show ? 'Hide' : 'Show' }} Alert
         </b-button>
         <b-alert
@@ -36,7 +33,6 @@
       All external js files exist as js files. This way we have eliminated the use of 
       vue-http-loader. We could turn them to Vue components and use vue-http-loader to compile Vue files.
       Or, better still - switch to a full Vue setup using CLI, Webpack, et al.
-
       <script src="./navigation.vue.js"></script>
       <script>
             Vue.component("Navigation", Navigation);
@@ -64,21 +60,15 @@
           dismissed() {
             console.log('Alert dismissed')
           },
-          request() {
+          async fetch() {
             console.log("Fetching..");
-            
-            d3.request("https://www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798")
-              .get(parse);
-          },
-          parse(error, data) {
-            if (error) {
-              console.log(`Error!`, error);
-            }
+            const res = await axios.get("https://cors-anywhere.herokuapp.com/www.fiyatsor.net/urun/biryag-aycicek-yagi-pet-1798");
 
-            console.log(`GET done!`, data);
             const domparser = new DOMParser();
-            const dom = domparser(data, 'text/xml');
-          }
+            const dom = domparser(res.data, 'text/xml');
+            
+            console.log(`GET done!`, res.data);
+          },
         }
       });
     </script>
